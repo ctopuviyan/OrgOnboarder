@@ -1,0 +1,52 @@
+[
+  {
+    "email": "john.doe@puviyan.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "Software Engineer",
+    "department": "Engineering",
+    "startDate": "2024-01-15",
+    "location": "Bangalore",
+    "employeeId": "PUV001"
+  },
+  {
+    "email": "jane.smith@puviyan.com",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "role": "Product Manager",
+    "department": "Product",
+    "startDate": "2024-02-01",
+    "location": "Mumbai",
+    "employeeId": "PUV002"
+  },
+  {
+    "email": "raj.kumar@puviyan.com",
+    "firstName": "Raj",
+    "lastName": "Kumar",
+    "role": "Senior Developer",
+    "department": "Engineering",
+    "startDate": "2023-11-10",
+    "location": "Bangalore",
+    "employeeId": "PUV003"
+  },
+  {
+    "email": "priya.sharma@puviyan.com",
+    "firstName": "Priya",
+    "lastName": "Sharma",
+    "role": "UX Designer",
+    "department": "Design",
+    "startDate": "2024-03-05",
+    "location": "Delhi",
+    "employeeId": "PUV004"
+  },
+  {
+    "email": "amit.patel@puviyan.com",
+    "firstName": "Amit",
+    "lastName": "Patel",
+    "role": "DevOps Engineer",
+    "department": "Engineering",
+    "startDate": "2024-01-20",
+    "location": "Pune",
+    "employeeId": "PUV005"
+  }
+]

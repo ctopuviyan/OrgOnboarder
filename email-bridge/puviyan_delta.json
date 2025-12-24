@@ -1,0 +1,29 @@
+[
+  {
+    "action": "add",
+    "email": "sarah.johnson@puviyan.com",
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "role": "Marketing Manager",
+    "department": "Marketing",
+    "startDate": "2024-11-10",
+    "location": "Bangalore",
+    "employeeId": "PUV006"
+  },
+  {
+    "action": "update",
+    "email": "john.doe@puviyan.com",
+    "role": "Senior Software Engineer",
+    "department": "Engineering"
+  },
+  {
+    "action": "update",
+    "email": "priya.sharma@puviyan.com",
+    "role": "Lead UX Designer",
+    "location": "Bangalore"
+  },
+  {
+    "action": "remove",
+    "email": "jane.smith@puviyan.com"
+  }
+]

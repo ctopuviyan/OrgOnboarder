@@ -1,0 +1,17 @@
+{
+  "name": "email-bridge",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "authorize": "node authorize.js",
+    "setup-watch": "node setup_watch_v2.js",
+    "check-status": "./check_status.sh"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "emailjs-mime-parser": "^2.0.7",
+    "form-data": "^4.0.4",
+    "googleapis": "^165.0.0"
+  }
+}

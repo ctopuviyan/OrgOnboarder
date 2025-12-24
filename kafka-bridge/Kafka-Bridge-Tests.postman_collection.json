@@ -1,0 +1,247 @@
+{
+  "info": {
+    "name": "Kafka Bridge - Upstash Tests",
+    "description": "Test Upstash Kafka message production and Kafka-Bridge processing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Produce Upsert Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{upstash_username}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{upstash_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"topic\": \"employee-upserts\",\n  \"value\": \"{\\\"orgId\\\":\\\"test-org\\\",\\\"rows\\\":[{\\\"email\\\":\\\"john@test.com\\\",\\\"statusInOrg\\\":\\\"active\\\"},{\\\"email\\\":\\\"jane@test.com\\\",\\\"statusInOrg\\\":\\\"active\\\"}],\\\"eventId\\\":\\\"evt-001\\\",\\\"closeAfter\\\":true}\"\n}"
+        },
+        "url": {
+          "raw": "{{upstash_rest_url}}/produce",
+          "host": ["{{upstash_rest_url}}"],
+          "path": ["produce"]
+        },
+        "description": "Produces a full roster upsert message to Upstash Kafka.\n\nThis simulates an organization sending a complete employee roster."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Produce Delta Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{upstash_username}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{upstash_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"topic\": \"employee-deltas\",\n  \"value\": \"{\\\"orgId\\\":\\\"test-org\\\",\\\"email\\\":\\\"bob@test.com\\\",\\\"deltaType\\\":\\\"joined\\\",\\\"eventId\\\":\\\"evt-002\\\"}\"\n}"
+        },
+        "url": {
+          "raw": "{{upstash_rest_url}}/produce",
+          "host": ["{{upstash_rest_url}}"],
+          "path": ["produce"]
+        },
+        "description": "Produces a single employee delta (change) message to Upstash Kafka.\n\nThis simulates a real-time employee status change (joined/left)."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Check Kafka-Bridge Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["health"]
+        },
+        "description": "Checks the health status of the Kafka-Bridge service.\n\nNote: You must run this command first:\ngcloud run services proxy kafka-bridge --region us-central1 --port 8080"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Produce Multiple Employees (Batch)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{upstash_username}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{upstash_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"topic\": \"employee-upserts\",\n  \"value\": \"{\\\"orgId\\\":\\\"acme-corp\\\",\\\"rows\\\":[{\\\"email\\\":\\\"alice@acme.com\\\",\\\"statusInOrg\\\":\\\"active\\\"},{\\\"email\\\":\\\"bob@acme.com\\\",\\\"statusInOrg\\\":\\\"active\\\"},{\\\"email\\\":\\\"charlie@acme.com\\\",\\\"statusInOrg\\\":\\\"inactive\\\"},{\\\"email\\\":\\\"diana@acme.com\\\",\\\"statusInOrg\\\":\\\"active\\\"},{\\\"email\\\":\\\"eve@acme.com\\\",\\\"statusInOrg\\\":\\\"active\\\"}],\\\"eventId\\\":\\\"evt-batch-001\\\",\\\"closeAfter\\\":true}\"\n}"
+        },
+        "url": {
+          "raw": "{{upstash_rest_url}}/produce",
+          "host": ["{{upstash_rest_url}}"],
+          "path": ["produce"]
+        },
+        "description": "Produces a batch of 5 employees for testing.\n\nUse this to test batch processing and Firestore writes."
+      },
+      "response": []
+    },
+    {
+      "name": "5. Produce Employee Left (Delta)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{upstash_username}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{upstash_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"topic\": \"employee-deltas\",\n  \"value\": \"{\\\"orgId\\\":\\\"acme-corp\\\",\\\"email\\\":\\\"charlie@acme.com\\\",\\\"deltaType\\\":\\\"left\\\",\\\"eventId\\\":\\\"evt-delta-001\\\"}\"\n}"
+        },
+        "url": {
+          "raw": "{{upstash_rest_url}}/produce",
+          "host": ["{{upstash_rest_url}}"],
+          "path": ["produce"]
+        },
+        "description": "Produces an employee 'left' delta message.\n\nThis marks an employee as no longer present in the organization."
+      },
+      "response": []
+    },
+    {
+      "name": "6. Check Normalizer Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{normalizer_url}}/health",
+          "host": ["{{normalizer_url}}"],
+          "path": ["health"]
+        },
+        "description": "Checks if the Normalizer service is running and healthy."
+      },
+      "response": []
+    },
+    {
+      "name": "7. Consume Messages (Check Topic)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{upstash_username}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{upstash_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{upstash_rest_url}}/consume/test-consumer-group/test-consumer-instance/employee-upserts",
+          "host": ["{{upstash_rest_url}}"],
+          "path": [
+            "consume",
+            "test-consumer-group",
+            "test-consumer-instance",
+            "employee-upserts"
+          ]
+        },
+        "description": "Manually consume messages from the employee-upserts topic.\n\nThis is useful for debugging - you can see what messages are in the queue."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "upstash_rest_url",
+      "value": "https://xxx-xxxxx-xxxxx.upstash.io",
+      "type": "string"
+    },
+    {
+      "key": "upstash_username",
+      "value": "your-username",
+      "type": "string"
+    },
+    {
+      "key": "upstash_password",
+      "value": "your-password",
+      "type": "string"
+    },
+    {
+      "key": "normalizer_url",
+      "value": "https://normalizer-298832040055.us-central1.run.app",
+      "type": "string"
+    }
+  ]
+}

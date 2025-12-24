@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "employees",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "presentInLatest",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastSeenEpoch",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

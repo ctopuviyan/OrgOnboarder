@@ -1,0 +1,14 @@
+{
+  "name": "gmail-processor",
+  "version": "1.0.0",
+  "description": "Process Gmail emails via push notifications",
+  "main": "index.js",
+  "dependencies": {
+    "googleapis": "^128.0.0",
+    "form-data": "^4.0.0",
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

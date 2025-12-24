@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Redpanda (Kafka-compatible) for local testing
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:latest
+    container_name: redpanda
+    command:
+      - redpanda start
+      - --smp 1
+      - --memory 1G
+      - --overprovisioned
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+    ports:
+      - "19092:19092"
+      - "9644:9644"
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Kafka Bridge
+  kafka-bridge:
+    build: .
+    container_name: kafka-bridge
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_BROKERS: redpanda:9092
+      KAFKA_CLIENT_ID: kafka-bridge
+      KAFKA_GROUP_ID: kafka-bridge-1
+      TOPIC_UPSERTS: org-roster-upserts
+      TOPIC_DELTAS: org-roster-deltas
+      NORMALIZER_BASE_URL: ${NORMALIZER_BASE_URL:-https://normalizer-example.a.run.app}
+      INGESTION_TOKEN: ${INGESTION_TOKEN:-your-secret-token}
+      BATCH_MAX_ROWS: 1000
+      BATCH_MAX_MS: 1200
+      HTTP_TIMEOUT_MS: 15000
+      RETRY_BASE_MS: 500
+      RETRY_MAX_MS: 15000
+      MAX_RETRIES: 8
+      CONCURRENCY: 1
+      PORT: 8080
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1); }).on('error', () => process.exit(1));"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  default:
+    name: kafka-bridge-network

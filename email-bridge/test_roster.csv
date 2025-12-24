@@ -1,0 +1,4 @@
+email,firstName,lastName,role
+alice@test.com,Alice,Smith,Engineer
+bob@test.com,Bob,Jones,Manager
+charlie@test.com,Charlie,Brown,Designer
