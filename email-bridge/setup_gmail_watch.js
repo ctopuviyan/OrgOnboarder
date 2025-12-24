@@ -32,7 +32,7 @@ async function setupGmailWatch() {
     const res = await gmail.users.watch({
       userId: 'me',
       requestBody: {
-        topicName: 'projects/gogreen-d6100/topics/gmail-roster-notifications',
+        topicName: 'projects/puviyan-prod/topics/gmail-roster-notifications',
         labelIds: ['INBOX'],
         labelFilterAction: 'include',
       },
@@ -62,12 +62,12 @@ async function setupGmailWatch() {
       console.log('Run these commands:');
       console.log('');
       console.log('  # Create topic');
-      console.log('  gcloud pubsub topics create gmail-roster-notifications --project=gogreen-d6100');
+      console.log('  gcloud pubsub topics create gmail-roster-notifications --project=puviyan-prod');
       console.log('');
       console.log('  # Grant permission');
       console.log('  gcloud pubsub topics add-iam-policy-binding gmail-roster-notifications \\');
       console.log('    --member=serviceAccount:gmail-api-push@system.gserviceaccount.com \\');
-      console.log('    --role=roles/pubsub.publisher --project=gogreen-d6100');
+      console.log('    --role=roles/pubsub.publisher --project=puviyan-prod');
     }
     
     process.exit(1);

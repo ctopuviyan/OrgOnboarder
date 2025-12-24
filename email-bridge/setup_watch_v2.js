@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const TOKEN_PATH = './gmail_token.json';
 const CREDENTIALS_PATH = './gmail_credentials.json';
-const PROJECT_ID = 'gogreen-d6100';
+const PROJECT_ID = 'puviyan-prod';
 const TOPIC_NAME = 'gmail-roster-notifications';
 
 async function setupGmailWatch() {
@@ -88,7 +88,7 @@ async function setupGmailWatch() {
       console.log('   2. Gmail does not have permission to publish to topic');
       console.log('');
       console.log('Verify with:');
-      console.log('  gcloud pubsub topics describe gmail-roster-notifications --project=gogreen-d6100');
+      console.log('  gcloud pubsub topics describe gmail-roster-notifications --project=puviyan-prod');
       console.log('');
     } else if (error.message.includes('invalid_grant')) {
       console.log('💡 Token expired or invalid');
