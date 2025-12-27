@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const FormData = require('form-data');
 const axios = require('axios');
 
-const NORMALIZER_URL = 'https://normalizer-bshc2hcqya-uc.a.run.app';
+const NORMALIZER_URL = process.env.NORMALIZER_URL || 'https://org-normalizer-mh3cjuxpba-uc.a.run.app';
 
 /**
  * Extract orgId from email subject or body
